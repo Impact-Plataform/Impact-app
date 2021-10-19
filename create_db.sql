@@ -1,0 +1,63 @@
+
+CREATE TABLE Admins(
+    admin_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    login VARCHAR(50) NOT NULL,
+    pass VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE Students (
+    student_id SERIAL PRIMARY KEY,
+    name VARCHAR(80) NOT NULL,
+    surname VARCHAR(255) NOT NULL,
+    birthdate VARCHAR(20) NOT NULL,
+    city_of_birth VARCHAR(255) NOT NULL,
+    adress VARCHAR(255) NOT NULL,
+    education_level VARCHAR(255) NOT NULL,
+    marital_status VARCHAR(20) NOT NULL,
+    employment_status VARCHAR(20) NOT NULL,
+    income VARCHAR(20) DEFAULT NULL,
+    number_of_household CHAR DEFAULT NULL,
+    family_income VARCHAR(20) DEFAULT NULL,
+    created_by VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE StudentContacts (
+    contact_id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES Students(student_id),
+    contact_type INT NOT NULL,
+    contact_value VARCHAR(50) NOT NULL,
+    created_by VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE StudentDocuments (
+    document_id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES Students(student_id),
+    document_type INT NOT NULL,
+    document_value VARCHAR(50) NOT NULL,
+    created_by VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE studentPresence(
+	presence_id SERIAL PRIMARY KEY,
+	student_id INT REFERENCES Students(student_id),
+	presence_date VARCHAR(20) NOT NULL,
+	created_by VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+
+
