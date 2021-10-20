@@ -2,8 +2,7 @@ module.exports = {
 
   collectCoverage: true,
 
-coverageDirectory: 'coverage',
+  coverageDirectory: 'coverage',
 
-
-            coverageProvider: 'v8',
+  coverageProvider: 'v8'
 }
