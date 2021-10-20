@@ -9,12 +9,13 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Impact-Plataform/Impact-app.git"
-    },"list-staged":{
+    },
+    "list-staged": {
         "*.js": [
             "npx standard"
         ]
     },
-    "husky":{
+    "husky": {
         "hooks": {
             "pre-commit": "lint-staged"
         }
@@ -26,7 +27,7 @@
     },
     "homepage": "https://github.com/Impact-Plataform/Impact-app#readme",
     "devDependencies": {
-        "husky": "^7.0.2",
+        "husky": "^4.3.8",
         "jest": "^27.3.1",
         "lint-staged": "^11.2.3",
         "standard": "^16.0.4"
