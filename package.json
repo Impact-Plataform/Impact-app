@@ -9,6 +9,15 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Impact-Plataform/Impact-app.git"
+    },"list-staged":{
+        "*.js": [
+            "npx standard"
+        ]
+    },
+    "husky":{
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
     },
     "author": "Plataforma Impact",
     "license": "ISC",
