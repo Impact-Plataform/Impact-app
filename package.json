@@ -1,0 +1,35 @@
+{
+    "name": "impact-app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Impact-Plataform/Impact-app.git"
+    },
+    "lint-staged": {
+        "*.js": [
+            "standard --fix",
+            "git add"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "author": "Plataforma Impact",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Impact-Plataform/Impact-app/issues"
+    },
+    "homepage": "https://github.com/Impact-Plataform/Impact-app#readme",
+    "devDependencies": {
+        "husky": "^7.0.2",
+        "lint-staged": "^11.2.3",
+        "standard": "^16.0.4"
+    }
+}

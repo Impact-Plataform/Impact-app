@@ -1,0 +1,4 @@
+.vscode/
+node_modules/
+create_db.sql
+heroku.session.sql
