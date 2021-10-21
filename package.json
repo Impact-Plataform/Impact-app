@@ -1,0 +1,35 @@
+{
+    "name": "impact-app",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/server.js",
+    "scripts": {
+        "test": "jest",
+        "dev": "npx nodemon"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Impact-Plataform/Impact-app.git"
+    },
+    "lint-staged": {
+        "*.js": [
+            "npx standard --fix"
+        ]
+    },
+    "author": "Plataforma Impact",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Impact-Plataform/Impact-app/issues"
+    },
+    "homepage": "https://github.com/Impact-Plataform/Impact-app#readme",
+    "devDependencies": {
+        "husky": "^7.0.2",
+        "jest": "^27.3.1",
+        "lint-staged": "^11.2.3",
+        "standard": "^16.0.4"
+    },
+    "dependencies": {
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1"
+    }
+}
