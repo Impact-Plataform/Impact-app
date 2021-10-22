@@ -34,7 +34,8 @@ class Student {
     }
 
     static async oneStudent(id){
-        await load.oneStudent()
+        return await load.oneStudent(id)
+        
     }
 
 }

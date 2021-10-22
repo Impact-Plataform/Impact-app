@@ -18,8 +18,8 @@ class load{
             let studentJson = {}
 
             studentJson.student = student
-            studentJson.contacts = contacts.rows
-            studentJson.documents = documents.rows
+            studentJson.student.contacts = contacts.rows
+            studentJson.student.documents = documents.rows
 
             studentsArray.push(studentJson)
         }
@@ -34,10 +34,12 @@ class load{
     
         let studentJson = {}
     
-        studentJson.student = students.row
+        studentJson.student = students.rows
         studentJson.contacts = contacts.rows
         studentJson.documents = documents.rows
         
+        //console.log(studentJson.student)
+
        return studentJson
     
     }
