@@ -1,35 +1,42 @@
 {
-    "name": "impact-app",
-    "version": "1.0.0",
-    "description": "",
-    "main": "src/server.js",
-    "scripts": {
-        "test": "jest",
-        "dev": "npx nodemon"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Impact-Plataform/Impact-app.git"
-    },
-    "lint-staged": {
-        "*.js": [
-            "npx standard --fix"
-        ]
-    },
-    "author": "Plataforma Impact",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/Impact-Plataform/Impact-app/issues"
-    },
-    "homepage": "https://github.com/Impact-Plataform/Impact-app#readme",
-    "devDependencies": {
-        "husky": "^7.0.2",
-        "jest": "^27.3.1",
-        "lint-staged": "^11.2.3",
-        "standard": "^16.0.4"
-    },
-    "dependencies": {
-        "dotenv": "^10.0.0",
-        "express": "^4.17.1"
-    }
+  "name": "impact-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node scr/server.js",
+    "dev": "npx nodemon src/server.js --ignore .tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Impact-Plataform/Impact-app.git"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npx standard --fix"
+    ]
+  },
+  "author": "Plataforma Impact",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Impact-Plataform/Impact-app/issues"
+  },
+  "homepage": "https://github.com/Impact-Plataform/Impact-app#readme",
+  "devDependencies": {
+    "husky": "^7.0.2",
+    "jest": "^27.3.1",
+    "lint-staged": "^11.2.3",
+    "postgres-cleaner": "^1.0.4",
+    "standard": "^16.0.4",
+    "supertest": "^6.1.6"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.7.1"
+  }
 }

@@ -3,7 +3,7 @@
 module.exports = {
   async save (req, res) {
     // Aqui vem o código para cadastro do estudante no banco de dados
-    res.status(200).send('Ola mundo')
+    res.status(200).send('Olá mundo')
   },
   async read (req, res) {
     // Aqui vem o código para busca individual de estudante
