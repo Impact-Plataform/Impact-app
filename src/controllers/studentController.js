@@ -15,7 +15,8 @@ module.exports = {
 
   async read (req, res) {
     // Aqui vem o código para busca individual de estudante
-    res.status(200).send('Ola mundo')
+    let result = await student.oneStudent(id)
+    res.status(200).send(result)
   },
 
   async readAll (req, res) {
