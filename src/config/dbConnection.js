@@ -1,15 +1,14 @@
-const { Pool } = require('pg')
-const fs = require('fs')
-
-const config = fs.readFileSync('src/config/settings.json').toString()
-
-const configJson = JSON.parse(config)
-
-const client = new Pool({
-    connectionString: configJson.connectString,
-    ssl: {
-        rejectUnauthorized: false,
-    }
+require('dotenv').config({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
 })
 
+const { Pool } = require('pg')
+require('dotenv').config()
+
+const client = new Pool({
+  connectionString: process.env.DB_CONNECTION_STRING,
+  ssl: {
+    rejectUnauthorized: false
+  }
+})
 module.exports = client

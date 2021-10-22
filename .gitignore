@@ -1,9 +1,5 @@
 .vscode/
 node_modules/
-.husky/
 .env
-create_db.sql
-jest.config.js
 heroku.session.sql
-ecosystem.config.js
-settings.json
+.env.test
