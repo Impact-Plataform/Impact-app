@@ -26,8 +26,20 @@ class load{
         return studentsArray
     }
 
-    static async oneStudents(id){
+    static async oneStudent(id){
 
+        let students = await db.query('SELECT * FROM students WHERE student_id = $1', [id])
+        let contacts = await db.query('SELECT contact_type, contact_description, contact_value FROM studentcontacts WHERE student_id = $1',[id])
+        let documents = await db.query('SELECT document_type, document_description, document_value FROM studentdocuments WHERE student_id = $1',[id])        
+    
+        let studentJson = {}
+    
+        studentJson.student = students.row
+        studentJson.contacts = contacts.rows
+        studentJson.documents = documents.rows
+        
+       return studentJson
+    
     }
 
 }
