@@ -1,5 +1,6 @@
 // const db = require('../config/dbConnection')
 const student = require('../models/student')
+const valida = require('./validaDados')
 
 module.exports = {
 
@@ -8,9 +9,31 @@ module.exports = {
     let {name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, employmentStatus, 
       income, numberOfHousehold, familyIncome, rg, cpf, phone, email} = req.body
 
-    await student.create(
-      name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
-      employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email)
+      const rgIsnumber = await valida.isNumber(rg)
+      if (!rgIsnumber) {
+        return res.status(400).json({errors: 'RG contém letras!!'});
+      }
+
+      const cpfIsnumber = await valida.isNumber(cpf)
+      if (!cpfIsnumber) {
+        return res.status(400).json({errors: 'CPF contém letras!!'});
+      }
+
+      const validaCpf = await valida.cpf(cpf)
+      if (!validaCpf) {
+        return res.status(400).json({errors: 'CPF Inválido!!'});
+      }
+
+      const validaEmail = await valida.email(email)
+      if (!validaEmail) {
+        return res.status(400).json({errors: 'Email invalido'});
+      }else{
+        let result = await student.create(
+          name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
+          employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email)
+
+        res.status(200).send(result)
+      }
   },
 
   async update (req, res) {
