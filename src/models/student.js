@@ -1,5 +1,7 @@
 const insert = require('../helpers/insertStudent')
 const load = require('../helpers/loadStudent')
+const update = require('../helpers/updateStudent')
+const erase = require('../helpers/deleteStudent')
 
 class Student {
 
@@ -26,7 +28,17 @@ class Student {
 
         await insert.insertStudent(name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
             employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email)
-        
+    }
+
+    static async update(student_id, name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
+        employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email){
+
+        await update.updateStudent(student_id, name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
+            employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email)
+    }
+
+    static async deleteStudent(id){
+        await erase.deleteStudent(id)
     }
 
     static async allStudents(){
