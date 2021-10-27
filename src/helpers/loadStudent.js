@@ -1,49 +1,43 @@
 
 const db = require('../config/dbConnection')
 
-class load{
+class load {
+  static async allStudents () {
+    const studentsArray = []
+    const students = await db.query('SELECT * FROM students')
 
-    static async allStudents(){
+    for (let i = 0; i < students.rows.length; i++) {
+      const student = students.rows[i]
+      const id = students.rows[i].student_id
+      const contacts = await db.query('SELECT contact_type, contact_description, contact_value FROM studentcontacts WHERE student_id = $1', [id])
+      const documents = await db.query('SELECT document_type, document_description, document_value FROM studentdocuments WHERE student_id = $1', [id])
 
-        let studentsArray = []
-        let students = await db.query('SELECT * FROM students')
-        
-        for(var i = 0; i < students.rows.length; i++){
+      const studentJson = {}
 
-            let student = students.rows[i]
-            let id = students.rows[i].student_id
-            let contacts = await db.query('SELECT contact_type, contact_description, contact_value FROM studentcontacts WHERE student_id = $1',[id])
-            let documents = await db.query('SELECT document_type, document_description, document_value FROM studentdocuments WHERE student_id = $1',[id])
-            
-            let studentJson = {}
+      studentJson.student = student
+      studentJson.student.contacts = contacts.rows
+      studentJson.student.documents = documents.rows
 
-            studentJson.student = student
-            studentJson.student.contacts = contacts.rows
-            studentJson.student.documents = documents.rows
-
-            studentsArray.push(studentJson)
-        }
-        return studentsArray
+      studentsArray.push(studentJson)
     }
+    return studentsArray
+  }
 
-    static async oneStudent(id){
+  static async oneStudent (id) {
+    const students = await db.query('SELECT * FROM students WHERE student_id = $1', [id])
+    const contacts = await db.query('SELECT contact_type, contact_description, contact_value FROM studentcontacts WHERE student_id = $1', [id])
+    const documents = await db.query('SELECT document_type, document_description, document_value FROM studentdocuments WHERE student_id = $1', [id])
 
-        let students = await db.query('SELECT * FROM students WHERE student_id = $1', [id])
-        let contacts = await db.query('SELECT contact_type, contact_description, contact_value FROM studentcontacts WHERE student_id = $1',[id])
-        let documents = await db.query('SELECT document_type, document_description, document_value FROM studentdocuments WHERE student_id = $1',[id])        
-    
-        let studentJson = {}
-    
-        studentJson.student = students.rows
-        studentJson.contacts = contacts.rows
-        studentJson.documents = documents.rows
-        
-        //console.log(studentJson.student)
+    const studentJson = {}
 
-       return studentJson
-    
-    }
+    studentJson.student = students.rows
+    studentJson.contacts = contacts.rows
+    studentJson.documents = documents.rows
 
+    // console.log(studentJson.student)
+
+    return studentJson
+  }
 }
 
 module.exports = load

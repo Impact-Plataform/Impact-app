@@ -1,20 +1,27 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const db = require('../config/dbConnection')
-module.exports = {
 
+module.exports = {
   async createUser (req, res, next) {
     try {
-      await db.query('INSERT INTO users (name, surname, email, password_hash, user_type) VALUES ($1,$2,$3,$4,$5)',
-        [req.body.name,
-          req.body.surname,
-          req.body.email,
-          bcrypt.hashSync(req.body.password, 10),
-          req.body.type])
+      try {
+        await db.query('INSERT INTO users (name, surname, email, password_hash, user_type) VALUES ($1,$2,$3,$4,$5)',
+          [req.body.name,
+            req.body.surname,
+            req.body.email,
+            bcrypt.hashSync(req.body.password, 10),
+            req.body.type])
+      } catch (error) {
+        res.status(400).send({
+          error: 'Email already exists'
+        })
+      }
+
       const response = {
         message: 'Usuário criado com sucesso',
         createdUsers: {
-          name: req.body.name.concat(' ', req.body.surname),
+          name: req.body.name,
           email: req.body.email
         }
       }
@@ -30,6 +37,7 @@ module.exports = {
       const result = queryReturn.rows
       if (result.length < 1) {
         return res.status(401).send({ message: 'Usuário ou senha inválidos' })
+        // delay na resposta
       }
       if (await bcrypt.compareSync(req.body.password, result[0].password_hash)) {
         const token = jwt.sign({
