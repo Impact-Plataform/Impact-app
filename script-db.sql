@@ -1,0 +1,71 @@
+
+
+CREATE TABLE Students(  
+    student_id SERIAL PRIMARY KEY,
+    name VARCHAR(80) NOT NULL,
+    surname VARCHAR(255) NOT NULL,
+    birthdate VARCHAR(20) NOT NULL,
+    city_of_birth VARCHAR(100) NOT NULL,
+    adress VARCHAR(255) NOT NULL,
+    education_level VARCHAR(100) NOT NULL,
+    marital_status VARCHAR(20) NOT NULL,
+    employment_status VARCHAR(20) NOT NULL,
+    family_income VARCHAR(20) NOT NULL,
+    updated_by VARCHAR(50) DEFAULT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE StudentContacts(  
+    contact_id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES Students(student_id),
+    contact_type INT NOT NULL,
+    contact_description VARCHAR(20) NOT NULL,
+    contact_value VARCHAR(255) NOT NULL,
+    updated_by VARCHAR(50) DEFAULT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE StudentDocuments(  
+    document_id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES Students(student_id),
+    document_type INT NOT NULL,
+    contact_description VARCHAR(20) NOT NULL,
+    document_value VARCHAR(255) NOT NULL,
+    updated_by VARCHAR(50) DEFAULT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE StudentResponsible(
+	id SERIAL PRIMARY KEY,
+	student_id INT REFERENCES Students(student_id),
+	name VARCHAR(255) NOT NULL,
+	contact VARCHAR(20) NOT NULL,
+	document VARCHAR(50) NOT NULL,
+	updated_by VARCHAR(50) DEFAULT NULL,
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE StudentConjuge(
+	id SERIAL PRIMARY KEY,
+	student_id INT REFERENCES Students(student_id),
+	name VARCHAR(255) NOT NULL,
+	contact VARCHAR(20) NOT NULL,
+	document VARCHAR(50) NOT NULL,
+	updated_by VARCHAR(50) DEFAULT NULL,
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    active BOOLEAN DEFAULT TRUE
+);
+
+
+
+
+
