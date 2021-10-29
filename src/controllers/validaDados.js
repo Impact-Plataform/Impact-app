@@ -54,7 +54,6 @@ module.exports = {
   },
 
   async age (dataNasc) {
-
     let dataAtual = new Date();
     let anoAtual = dataAtual.getFullYear();
     let anoNascParts = dataNasc.split('/');
@@ -79,6 +78,29 @@ module.exports = {
     } 
 
     return idade; 
-  }
+  },
 
+  async validaBirthDate(birthDate){
+
+    let isNumber = function (n) {
+      return !isNaN(parseFloat(n)) && isFinite(n)
+    }
+
+    if(birthDate[2] !== '/' || birthDate[5] !== '/'){
+      return false
+    }
+    else{
+      let anoNascParts = birthDate.split('/');
+      let diaNasc = anoNascParts[0];
+      let mesNasc = anoNascParts[1];
+      let anoNasc = anoNascParts[2];
+
+      if(!(isNumber(diaNasc)) || !(isNumber(mesNasc)) || !(isNumber(anoNasc))){
+        return false
+      }
+      else{
+        return true
+      }
+    }
+  }
 }
