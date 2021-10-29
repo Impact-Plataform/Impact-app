@@ -9,7 +9,6 @@ CREATE TABLE Students(
     adress VARCHAR(255) NOT NULL,
     education_level VARCHAR(100) NOT NULL,
     marital_status VARCHAR(20) NOT NULL,
-    employment_status VARCHAR(20) NOT NULL,
     family_income VARCHAR(20) NOT NULL,
     updated_by VARCHAR(50) DEFAULT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
