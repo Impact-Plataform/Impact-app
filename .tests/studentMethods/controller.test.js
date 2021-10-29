@@ -1,5 +1,6 @@
 const axios = require('axios')
 const crypto = require('crypto')
+const { get } = require('http')
 const studentController = require('../../src/controllers/studentController')
 
 const generate = function () {
@@ -10,15 +11,30 @@ const request = function (url, method, data) {
     return axios({ url, method, data, validateStatus: false })
 }
 
-test.only('Deve salvar um estudante', async function (){
-    const res = {name: 'testando', surname: 'testando', birthDate: '21/12/1900', cityOfBirth: 'testando', adress: 'testando', educationLevel: 'testando', 
-        maritalStatus: 'testando', familyIncome: '+ 1000$', email: 'testando@gmail.com'}
+const mockRequest = (body) => ({
+    body
+  });
+
+test('Deve salvar um estudante', async function (){
+    /* const req = mockRequest({name: 'testando', surname: 'testando', birthDate: '21/12/1900', cityOfBirth: 'testando', adress: 'testando', educationLevel: 'testando', 
+    maritalStatus: 'testando', familyIncome: '+ 1000$', email: 'testando@gmail.com'
+    }) */
+    
     const student1 = await studentController.save()
 
-    const response = await request('ttp://localhost:3000/student/saveStudents', 'post')
+    const response = await request('http://localhost:3000/student/saveStudents', 'post')
 
-    //expect(response.status).toBe(201)
+    expect(response.status).toBe(201)
 })
+
+test.only('Deve buscar os estudantes', async function() {
+    const response = await request('http://localhost:3000/student/getStudents', 'get')
+    
+    expect(response.status).toBe(200)
+})
+
+
+
 
 
 /* const{
