@@ -6,7 +6,7 @@ module.exports = {
 
   async save (req, res) {
     // Aqui vem o código para cadastro do estudante no banco de dados
-    const{
+    const {
       name, surname, birthDate, cityOfBirth, adress, educationLevel, 
       maritalStatus, familyIncome, rg, cpf, phone, email, nameResponsible, contactResponsible, documentResponsible,
       nameSpouse, contactSpouse, documentSpouse
