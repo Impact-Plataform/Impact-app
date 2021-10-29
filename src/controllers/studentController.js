@@ -12,28 +12,37 @@ module.exports = {
       nameSpouse, contactSpouse, documentSpouse
     } = req.body
 
+    //verifica se os dados obrigatatórios vêm em branco
     if(name === '' || surname === '' || birthDate === '' || cityOfBirth === '' || adress === '' 
     || educationLevel === '' || maritalStatus === '' || familyIncome === '' || rg === ''
     || cpf === '' || phone === '' || email === ''){
+
       return res.status(400).send({message: 'Dados do aluno, não preenchidos!'})
+
     }
 
+    //verifica data de nascimento
     if(!(await valida.validaBirthDate(birthDate))){
       return res.status(400).send({message: 'Data de nascimento inválida!'})
     }
 
+    //verifica se o estudante é menor de 18 anos
     const checkAge = await valida.age(birthDate)
     if(checkAge < 18){
+
+      //para estudantes menores de 18, verifica se as informações de responsáveis estão preenchidas
       if(nameResponsible == '' || contactResponsible == '' || documentResponsible == ''){
         return res.status(400).send({message: 'Para menores de 18 anos, favor inserir os dados do responsável!'})
       }
       else{
+        //confere os documentos do responsável
         const responsibleDocument = await valida.isNumber(documentResponsible)
         const responsibleContact = await valida.isNumber(contactResponsible)
         if (!responsibleDocument || !responsibleContact) {
           return res.status(400).send({message: 'Documento do responsável inválido contém letras!' })
         }
         else{
+          //verifica CPF
           if(!(await valida.cpf(documentResponsible))){
             return res.status(400).send({message: 'CPF do responsável inválido!' })
           }
@@ -41,6 +50,7 @@ module.exports = {
       }
     }
 
+    //verifica dados do conjuge
     if(contactSpouse != ''){
       if (!(await valida.isNumber(contactSpouse))) {
         return res.status(400).send({ errors: 'Contato do conjuge inválido contém letras!!' })
@@ -53,11 +63,13 @@ module.exports = {
       }
     }
 
+    //verifica RG do estudante
     const rgIsnumber = await valida.isNumber(rg)
     if (!rgIsnumber) {
       return res.status(400).send({ errors: 'RG inválido contém letras!!' })
     }
 
+    //verifica telefone do estudante
     if(phone != ''){
       const contactIsNumber = await valida.isNumber(phone)
       if(!contactIsNumber){
@@ -65,6 +77,7 @@ module.exports = {
       }
     }
 
+    //verifica CPF do estudante
     const cpfIsnumber = await valida.isNumber(cpf)
     if (!cpfIsnumber) {
       return res.status(400).send({ errors: 'CPF inválido contém letras!!' })
@@ -75,6 +88,7 @@ module.exports = {
       return res.status(400).send({ errors: 'CPF Inválido!!' })
     }
 
+    //verifica email
     const validaEmail = await valida.email(email)
     if (!validaEmail) {
       return res.status(400).send({ errors: 'Email invalido' })
