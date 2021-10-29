@@ -4,9 +4,9 @@ const update = require('../helpers/updateStudent')
 const erase = require('../helpers/deleteStudent')
 
 class Student {
-  constructor (name, surname, adress, birthdate, cityOfBirth,
-    educationLevel, maritalStatus, familyIncome, numberOfHousehold, employmentStatus,
-    income, contact, document) {
+  constructor (id, name, surname, adress, birthdate, cityOfBirth,
+    educationLevel, maritalStatus, familyIncome, contact, document, responsible, spouse) {
+    this.id = id
     this.name = name
     this.surname = surname
     this.birthdate = birthdate
@@ -14,24 +14,31 @@ class Student {
     this.adress = adress
     this.educationLevel = educationLevel
     this.maritalStatus = maritalStatus
-    this.employmentStatus = employmentStatus
-    this.income = income
-    this.numberOfHousehold = numberOfHousehold
     this.familyIncome = familyIncome
     this.contact = contact
     this.document = document
+    this.responsible = responsible
+    this.spouse = responsible
   }
 
   static async create (name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus,
-    employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email) {
-    await insert.insertStudent(name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus,
-      employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email)
+    familyIncome, rg, cpf, phone, email, nameResponsible, contactResponsible, documentResponsible, 
+    nameSpouse, contactSpouse, documentSpouse) {
+
+    await insert.insertStudent(name, surname, birthDate, cityOfBirth, adress, educationLevel, 
+      maritalStatus, familyIncome, rg, cpf, phone, email, nameResponsible, contactResponsible, documentResponsible, 
+      nameSpouse, contactSpouse, documentSpouse)
+
   }
 
-  static async update (studentId, name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus,
-    employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email) {
-    await update.updateStudent(studentId, name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus,
-      employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email)
+  static async update (studentId, name, surname, birthDate, cityOfBirth, adress, educationLevel, 
+    maritalStatus, familyIncome, rg, cpf, phone, email, nameResponsible, contactResponsible, documentResponsible, 
+    nameSpouse, contactSpouse, documentSpouse) {
+
+    await update.updateStudent(studentId, name, surname, birthDate, cityOfBirth, adress, educationLevel, 
+      maritalStatus, familyIncome, rg, cpf, phone, email, nameResponsible, contactResponsible, documentResponsible, 
+      nameSpouse, contactSpouse, documentSpouse)
+
   }
 
   static async deleteStudent (id) {

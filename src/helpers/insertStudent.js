@@ -2,10 +2,12 @@
 const db = require('../config/dbConnection')
 
 class insert {
-  static async insertStudent (name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus,
-    employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email) {
-    const studentId = await db.query('INSERT INTO students(name, surname, birthdate, city_of_birth, adress, education_level, marital_status, employment_status, income, number_of_household, family_income) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING student_id',
-      [name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, employmentStatus, income, numberOfHousehold, familyIncome])
+  static async insertStudent (name, surname, birthDate, cityOfBirth, adress, educationLevel, 
+    maritalStatus, familyIncome, rg, cpf, phone, email, nameResponsible, contactResponsible, documentResponsible, 
+    nameSpouse, contactSpouse, documentSpouse) {
+
+    const studentId = await db.query('INSERT INTO students(name, surname, birthdate, city_of_birth, adress, education_level, marital_status, family_income) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING student_id',
+      [name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, familyIncome])
 
     const id = studentId.rows[0].student_id
 
@@ -27,6 +29,16 @@ class insert {
     if (cpf !== '') {
       await db.query('INSERT INTO studentdocuments(student_id, document_type, document_description, document_value) VALUES($1, $2, $3, $4)',
         [id, 2, 'CPF', cpf])
+    }
+
+    if(nameResponsible !== ''){
+      await db.query('INSERT INTO studentresponsible(student_id, name, contact, document) VALUES($1, $2, $3, $4)',
+        [id, nameResponsible, contactResponsible, documentResponsible])
+    }
+
+    if(nameSpouse !== ''){
+      await db.query('INSERT INTO studentconjuge(student_id, name, contact, document) VALUES($1, $2, $3, $4)',
+        [id, nameSpouse, contactSpouse, documentSpouse])
     }
   }
 }

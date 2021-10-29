@@ -51,6 +51,34 @@ module.exports = {
     }
 
     return true
+  },
+
+  async age (dataNasc) {
+
+    let dataAtual = new Date();
+    let anoAtual = dataAtual.getFullYear();
+    let anoNascParts = dataNasc.split('/');
+    let diaNasc = anoNascParts[0];
+    let mesNasc = anoNascParts[1];
+    let anoNasc = anoNascParts[2];
+    let idade = anoAtual - anoNasc;
+    let mesAtual = dataAtual.getMonth() + 1; 
+
+    //Se mes atual for menor que o nascimento, nao fez aniversario ainda;  
+    if(mesAtual < mesNasc){
+      idade--; 
+    } else {
+
+      //Se estiver no mes do nascimento, verificar o dia
+      if(mesAtual == mesNasc){ 
+          //Se a data atual for menor que o dia de nascimento ele ainda nao fez aniversario
+          if(new Date().getDate() < diaNasc ){ 
+              idade--; 
+          }
+      }   
+    } 
+
+    return idade; 
   }
 
 }
