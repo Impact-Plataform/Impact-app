@@ -1,70 +1,72 @@
-
+CREATE TABLE users(
+  id SERIAL PRIMARY KEY ,
+  name VARCHAR(80) NOT NULL,
+  surname VARCHAR(255) NOT NULL,
+  email VARCHAR(80) NOT NULL UNIQUE,
+  password_hash VARCHAR(60) NOT NULL,
+  user_type VARCHAR(20) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE Students(  
     student_id SERIAL PRIMARY KEY,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
     name VARCHAR(80) NOT NULL,
-    surname VARCHAR(255) NOT NULL,
-    birthdate VARCHAR(20) NOT NULL,
+    birthdate VARCHAR(10) NOT NULL,
     city_of_birth VARCHAR(100) NOT NULL,
-    adress VARCHAR(255) NOT NULL,
-    education_level VARCHAR(100) NOT NULL,
-    marital_status VARCHAR(20) NOT NULL,
-    family_income VARCHAR(20) NOT NULL,
+    schooling VARCHAR(30) NOT NULL,
+    marital_status VARCHAR(10) NOT NULL,
+    income VARCHAR(30) NOT NULL,
+    family_members VARCHAR(3) NOT NULL,
+    family_income VARCHAR(30) NOT NULL,
+    family_members_with_disability BOOLEAN NOT NULL DEFAULT FALSE,
+    government_aid BOOLEAN NOT NULL DEFAULT FALSE,
     updated_by VARCHAR(50) DEFAULT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    active BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE StudentContacts(  
     contact_id SERIAL PRIMARY KEY,
     student_id INT REFERENCES Students(student_id),
-    contact_type INT NOT NULL,
-    contact_description VARCHAR(20) NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    contact_type VARCHAR(5) NOT NULL,
     contact_value VARCHAR(255) NOT NULL,
-    updated_by VARCHAR(50) DEFAULT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    active BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE StudentDocuments(  
+CREATE TABLE StudentDocuments(
     document_id SERIAL PRIMARY KEY,
     student_id INT REFERENCES Students(student_id),
-    document_type INT NOT NULL,
-    contact_description VARCHAR(20) NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    document_type VARCHAR(5) NOT NULL,
     document_value VARCHAR(255) NOT NULL,
-    updated_by VARCHAR(50) DEFAULT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    active BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE StudentResponsible(
-	id SERIAL PRIMARY KEY,
-	student_id INT REFERENCES Students(student_id),
-	name VARCHAR(255) NOT NULL,
-	contact VARCHAR(20) NOT NULL,
-	document VARCHAR(50) NOT NULL,
-	updated_by VARCHAR(50) DEFAULT NULL,
-	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE StudentParents(
+    parent_id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES Students(student_id),
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    name VARCHAR(80) NOT NULL,
+    relationship VARCHAR(10) NOT NULL,
+    cpf VARCHAR(15) NOT NULL,
+    cell_phone VARCHAR(15) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    active BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE StudentConjuge(
-	id SERIAL PRIMARY KEY,
-	student_id INT REFERENCES Students(student_id),
-	name VARCHAR(255) NOT NULL,
-	contact VARCHAR(20) NOT NULL,
-	document VARCHAR(50) NOT NULL,
-	updated_by VARCHAR(50) DEFAULT NULL,
-	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE StudentAddres (
+    addres_id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES Students(student_id),
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    street VARCHAR(100) NOT NULL,
+    number VARCHAR(10) NOT NULL,
+    cep VARCHAR(10) NOT NULL,
+    complement VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    active BOOLEAN DEFAULT TRUE
 );
-
-
-
-
-

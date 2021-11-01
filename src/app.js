@@ -16,10 +16,6 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/student', require('./routes/studentRoutes'))
-app.use('/user', require('./routes/userRoutes'))
-
-// Rota não encontrada
 app.use((req, res, next) => {
   const error = new Error('Not found')
   error.status = 404
@@ -34,5 +30,8 @@ app.use((error, req, res, next) => {
     }
   })
 })
+
+app.use('/student', require('./routes/studentRoutes'))
+app.use('/user', require('./routes/userRoutes'))
 
 module.exports = app
