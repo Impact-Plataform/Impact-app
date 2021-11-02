@@ -1,6 +1,5 @@
 {
   "student": {
-    "isActive": true,
     "name": "John",
     "birthdate": "25/10/1998",
     "documents": {

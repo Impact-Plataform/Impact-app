@@ -8,7 +8,6 @@ class load {
     const students = await db.query('SELECT student_id, name, surname, birthdate, city_of_birth, adress, education_level, marital_status, family_income, updated_by FROM students WHERE active = TRUE')
 
     for (let i = 0; i < students.rows.length; i++) {
-
       const student = students.rows[i]
       const id = students.rows[i].student_id
       const contacts = await db.query('SELECT contact_type, contact_description, contact_value FROM studentcontacts WHERE student_id = $1', [id])
@@ -29,11 +28,9 @@ class load {
     }
 
     return studentsArray
-
   }
 
   static async oneStudent (id) {
-
     const students = await db.query('SELECT student_id, name, surname, birthdate, city_of_birth, adress, education_level, marital_status, family_income, updated_by FROM students WHERE student_id = $1 AND active = TRUE', [id])
     const contacts = await db.query('SELECT contact_type, contact_description, contact_value FROM studentcontacts WHERE student_id = $1', [id])
     const documents = await db.query('SELECT document_type, document_description, document_value FROM studentdocuments WHERE student_id = $1', [id])
@@ -49,9 +46,7 @@ class load {
     studentJson.student.spouse = spouse.rows
 
     return studentJson
-    
   }
-
 }
 
 module.exports = load

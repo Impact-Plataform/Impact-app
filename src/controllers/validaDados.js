@@ -54,51 +54,47 @@ module.exports = {
   },
 
   async age (dataNasc) {
-    let dataAtual = new Date();
-    let anoAtual = dataAtual.getFullYear();
-    let anoNascParts = dataNasc.split('/');
-    let diaNasc = anoNascParts[0];
-    let mesNasc = anoNascParts[1];
-    let anoNasc = anoNascParts[2];
-    let idade = anoAtual - anoNasc;
-    let mesAtual = dataAtual.getMonth() + 1; 
+    const dataAtual = new Date()
+    const anoAtual = dataAtual.getFullYear()
+    const anoNascParts = dataNasc.split('/')
+    const diaNasc = anoNascParts[0]
+    const mesNasc = anoNascParts[1]
+    const anoNasc = anoNascParts[2]
+    let idade = anoAtual - anoNasc
+    const mesAtual = dataAtual.getMonth() + 1
 
-    //Se mes atual for menor que o nascimento, nao fez aniversario ainda;  
-    if(mesAtual < mesNasc){
-      idade--; 
+    // Se mes atual for menor que o nascimento, nao fez aniversario ainda;
+    if (mesAtual < mesNasc) {
+      idade--
     } else {
+      // Se estiver no mes do nascimento, verificar o dia
+      if (mesAtual === mesNasc) {
+        // Se a data atual for menor que o dia de nascimento ele ainda nao fez aniversario
+        if (new Date().getDate() < diaNasc) {
+          idade--
+        }
+      }
+    }
 
-      //Se estiver no mes do nascimento, verificar o dia
-      if(mesAtual == mesNasc){ 
-          //Se a data atual for menor que o dia de nascimento ele ainda nao fez aniversario
-          if(new Date().getDate() < diaNasc ){ 
-              idade--; 
-          }
-      }   
-    } 
-
-    return idade; 
+    return idade
   },
 
-  async validaBirthDate(birthDate){
-
-    let isNumber = function (n) {
+  async validaBirthDate (birthDate) {
+    const isNumber = function (n) {
       return !isNaN(parseFloat(n)) && isFinite(n)
     }
 
-    if(birthDate[2] !== '/' || birthDate[5] !== '/'){
+    if (birthDate[2] !== '/' || birthDate[5] !== '/') {
       return false
-    }
-    else{
-      let anoNascParts = birthDate.split('/');
-      let diaNasc = anoNascParts[0];
-      let mesNasc = anoNascParts[1];
-      let anoNasc = anoNascParts[2];
+    } else {
+      const anoNascParts = birthDate.split('/')
+      const diaNasc = anoNascParts[0]
+      const mesNasc = anoNascParts[1]
+      const anoNasc = anoNascParts[2]
 
-      if(!(isNumber(diaNasc)) || !(isNumber(mesNasc)) || !(isNumber(anoNasc))){
+      if (!(isNumber(diaNasc)) || !(isNumber(mesNasc)) || !(isNumber(anoNasc))) {
         return false
-      }
-      else{
+      } else {
         return true
       }
     }

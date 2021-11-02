@@ -1,44 +1,45 @@
-const insert = require('../helpers/insertStudent')
+const insertStudent = require('../helpers/insertStudent')
 const load = require('../helpers/loadStudent')
 const update = require('../helpers/updateStudent')
 const erase = require('../helpers/deleteStudent')
-
 class Student {
-  constructor (id, name, surname, adress, birthdate, cityOfBirth,
-    educationLevel, maritalStatus, familyIncome, contact, document, responsible, spouse) {
-    this.id = id
-    this.name = name
-    this.surname = surname
-    this.birthdate = birthdate
-    this.cityOfBirth = cityOfBirth
-    this.adress = adress
-    this.educationLevel = educationLevel
-    this.maritalStatus = maritalStatus
-    this.familyIncome = familyIncome
-    this.contact = contact
-    this.document = document
-    this.responsible = responsible
-    this.spouse = responsible
+  constructor (student) {
+    this.id = student.id
+    this.name = student.name
+    this.address = student.address
+    this.birthdate = student.birthdate
+    this.income = student.income
+    this.city_of_birth = student.city_of_birth
+    this.schooling = student.schooling
+    this.marital_status = student.marital_status
+    this.family_income = student.family_income
+    this.family_members = student.family_members
+    this.contacts = student.contacts
+    this.documents = student.documents
+    this.parent = student.parent
+    this.government_aid = student.government_aid
+    this.family_members_with_disability = student.family_members_with_disability
   }
 
-  static async create (name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus,
-    familyIncome, rg, cpf, phone, email, nameResponsible, contactResponsible, documentResponsible, 
-    nameSpouse, contactSpouse, documentSpouse) {
+  isMinor () {
+    const today = new Date()
+    const birth = new Date(this.birthdate.split('/').reverse().join('-'))
+    const age = today.getFullYear() - birth.getFullYear()
+    if (age < 18) {
+      console.log('É menor de idade   ' + age)
+      return true
+    }
 
-    await insert.insertStudent(name, surname, birthDate, cityOfBirth, adress, educationLevel, 
-      maritalStatus, familyIncome, rg, cpf, phone, email, nameResponsible, contactResponsible, documentResponsible, 
-      nameSpouse, contactSpouse, documentSpouse)
-
+    return false
   }
 
-  static async update (studentId, name, surname, birthDate, cityOfBirth, adress, educationLevel, 
-    maritalStatus, familyIncome, rg, cpf, phone, email, nameResponsible, contactResponsible, documentResponsible, 
-    nameSpouse, contactSpouse, documentSpouse) {
+  async create () {
+    insertStudent(this)
+  }
 
-    await update.updateStudent(studentId, name, surname, birthDate, cityOfBirth, adress, educationLevel, 
-      maritalStatus, familyIncome, rg, cpf, phone, email, nameResponsible, contactResponsible, documentResponsible, 
-      nameSpouse, contactSpouse, documentSpouse)
-
+  static async update () {
+    await update.updateStudent(this.id, this.name, this.address, this.birthdate, this.income, this.cityOfBirth,
+      this.schooling, this.maritalStatus, this.familyIncome, this.familyMembers, this.contacts, this.documents, this.parent, this.governmentAid, this.familyMembersWithDisability)
   }
 
   static async deleteStudent (id) {
