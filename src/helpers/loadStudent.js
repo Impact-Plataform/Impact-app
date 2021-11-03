@@ -1,5 +1,6 @@
 
 const db = require('../config/dbConnection')
+// const Student = require('../models/student')
 
 class load {
   static async allStudents () {
@@ -30,22 +31,36 @@ class load {
     return studentsArray
   }
 
-  static async oneStudent (id) {
-    const students = await db.query('SELECT student_id, name, surname, birthdate, city_of_birth, adress, education_level, marital_status, family_income, updated_by FROM students WHERE student_id = $1 AND active = TRUE', [id])
-    const contacts = await db.query('SELECT contact_type, contact_description, contact_value FROM studentcontacts WHERE student_id = $1', [id])
-    const documents = await db.query('SELECT document_type, document_description, document_value FROM studentdocuments WHERE student_id = $1', [id])
-    const responsable = await db.query('SELECT name, contact, document FROM studentresponsible WHERE student_id = $1', [id])
-    const spouse = await db.query('SELECT name, contact, document FROM studentconjuge WHERE student_id = $1', [id])
+  static async student (student) {
+    // const students = new Student()
+    // if (await !student.isMinor()) {
+    //   delete student.parent
+    // }
+    let keys = Object.keys(student).filter(key => {
+      if (typeof (student[key]) !== 'object' && student[key] !== undefined) {
+        return key
+      }
+      return false
+    })
+    keys = keys.join(', ')
+    console.log(keys)
+    // const id = student.student_id
 
-    const studentJson = {}
+    // const students = await db.query('SELECT student_id, name, surname, birthdate, city_of_birth, adress, education_level, marital_status, family_income, updated_by FROM students WHERE student_id = $1 AND active = TRUE', [id])
+    // const contacts = await db.query('SELECT contact_type, contact_description, contact_value FROM studentcontacts WHERE student_id = $1', [id])
+    // const documents = await db.query('SELECT document_type, document_description, document_value FROM studentdocuments WHERE student_id = $1', [id])
+    // const responsable = await db.query('SELECT name, contact, document FROM studentresponsible WHERE student_id = $1', [id])
+    // const spouse = await db.query('SELECT name, contact, document FROM studentconjuge WHERE student_id = $1', [id])
 
-    studentJson.student = students.rows[0]
-    studentJson.student.contacts = contacts.rows
-    studentJson.student.documents = documents.rows
-    studentJson.student.responsable = responsable.rows
-    studentJson.student.spouse = spouse.rows
+    // const studentJson = {}
 
-    return studentJson
+    // studentJson.student = students.rows[0]
+    // studentJson.student.contacts = contacts.rows
+    // studentJson.student.documents = documents.rows
+    // studentJson.student.responsable = responsable.rows
+    // studentJson.student.spouse = spouse.rows
+
+    // return studentJson
   }
 }
 

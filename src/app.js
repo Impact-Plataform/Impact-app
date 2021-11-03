@@ -20,7 +20,6 @@ app.use('/student', require('./routes/studentRoutes'))
 app.use('/user', require('./routes/userRoutes'))
 
 app.use((req, res, next) => {
-  console.log('Erro a rota')
   const error = new Error('Resource not found')
   error.status = 404
   next(error)

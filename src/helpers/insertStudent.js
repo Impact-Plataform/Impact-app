@@ -1,7 +1,7 @@
 
 const db = require('../config/dbConnection')
 const pgp = require('pg-promise')({
-  capSQL: true // if you want all generated SQL capitalized
+  capSQL: true
 })
 
 module.exports = async (student) => {
@@ -14,24 +14,24 @@ module.exports = async (student) => {
     }
     return false
   })
-  const queries = []
+  const aditionalQuery = []
   const columnStudents = new pgp.helpers.ColumnSet(keys, { table: 'students' })
-  queries.push(pgp.helpers.insert(student, columnStudents) + ' RETURNING student_id')
+  const mainQuery = pgp.helpers.insert(student, columnStudents) + ' RETURNING student_id'
+  const queryRet = await db.query(mainQuery)
+  student.student_id = queryRet.rows[0].student_id
 
   const entities = Object.keys(student).filter(key => {
-    return !keys.find(k => k === key) && student[key] !== undefined ? key : false
+    return typeof (student[key]) === 'object' ? key : false
   })
-
   entities.forEach(entity => {
+    student[entity].student_id = student.student_id
     const columnEntity = new pgp.helpers.ColumnSet(Object.keys(student[entity]), { table: `student${entity}` })
     const queryEntity = pgp.helpers.insert(student[entity], columnEntity)
-    queries.push(queryEntity)
+    aditionalQuery.push(queryEntity)
   })
-  console.log(queries)
   try {
-    const result = await db.query(queries.join(';'))
-    console.log(result.rows)
+    await db.query(aditionalQuery.join(';'))
   } catch (error) {
-    console.log(error)
+    return error
   }
 }

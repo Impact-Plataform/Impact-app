@@ -45,7 +45,7 @@ module.exports = {
           user: user.name,
           admin: admin
         },
-        process.env.SECRET_API,
+        process.env.JWT_KEY,
         {
           expiresIn: '8h'
         })

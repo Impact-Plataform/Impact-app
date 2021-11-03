@@ -1,11 +1,12 @@
-const insertStudent = require('../helpers/insertStudent')
-const load = require('../helpers/loadStudent')
+const insert = require('../helpers/insertStudent')
+const Load = require('../helpers/LoadStudent')
 const update = require('../helpers/updateStudent')
 const erase = require('../helpers/deleteStudent')
 class Student {
   constructor (student) {
-    this.id = student.id
+    this.student_id = student.student_id
     this.name = student.name
+    this.jedi = student.jedi
     this.address = student.address
     this.birthdate = student.birthdate
     this.income = student.income
@@ -26,32 +27,37 @@ class Student {
     const birth = new Date(this.birthdate.split('/').reverse().join('-'))
     const age = today.getFullYear() - birth.getFullYear()
     if (age < 18) {
-      console.log('É menor de idade   ' + age)
       return true
     }
-
     return false
   }
 
   async create () {
-    insertStudent(this)
+    try {
+      await insert(this)
+    } catch (error) {
+      return error
+    }
   }
 
-  static async update () {
-    await update.updateStudent(this.id, this.name, this.address, this.birthdate, this.income, this.cityOfBirth,
-      this.schooling, this.maritalStatus, this.familyIncome, this.familyMembers, this.contacts, this.documents, this.parent, this.governmentAid, this.familyMembersWithDisability)
+  async update () {
+    try {
+      await update(this)
+    } catch (error) {
+      return error
+    }
   }
 
   static async deleteStudent (id) {
-    await erase.deleteStudent(id)
+    await erase(id)
   }
 
   static async allStudents () {
-    return await load.allStudents()
+    return await Load.allStudents()
   }
 
-  static async oneStudent (id) {
-    return await load.oneStudent(id)
+  static async getStudent () {
+    return await Load.student()
   }
 }
 
