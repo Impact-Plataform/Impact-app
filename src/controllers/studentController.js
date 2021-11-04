@@ -39,11 +39,10 @@ module.exports = {
 
   async readAll (req, res) {
     try {
-      const vet = []
-      vet.push(await getAllStudents())
-      // const result = await getAllStudents()
-      res.status(200).send(vet)
+      const students = await getAllStudents()
+      res.status(200).send(students)
     } catch (error) {
+      console.log(error)
       res.status(400).send({ error: 'Falha ao buscar estudantes' })
     }
   },

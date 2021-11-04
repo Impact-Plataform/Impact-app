@@ -23,21 +23,18 @@ async function aditionalQueries (student) {
     const parent = await db.query(parentQuery + condition, [student.student_id])
     student.parent = parent.rows[0]
   }
+
   return student
 }
 
 module.exports = {
   async getAllStudents () {
     const students = (await db.query(studentQuery + 'WHERE is_active = TRUE')).rows
-    const studentArray = []
-    students.forEach(async student => {
+
+    return Promise.all(students.map(async student => {
       const completedStudent = await aditionalQueries(student)
-      studentArray.push(completedStudent)
-    })
-    if (studentArray.length === students.length) {
-      return studentArray
-    }
-    return await aditionalQueries(students)
+      return completedStudent
+    }))
   },
 
   async getStudent (id) {
