@@ -1,28 +1,33 @@
-
 const db = require('../config/dbConnection')
+const isMinor = require('../helpers/isMinor')
+const pgp = require('pg-promise')({
+  capSQL: true
+})
 
-class update{
-
-    static async updateStudent(student_id, name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
-        employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email){
-
-            await db.query("UPDATE students SET name = $1, surname = $2, birthdate = $3, city_of_birth = $4, adress = $5, education_level = $6, marital_status = $7, employment_status = $8, income = $9, number_of_household = $10, family_income) = $11 WHERE student_id = $12",
-            [name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, employmentStatus, income, numberOfHousehold, familyIncome, student_id])
-
-            await db.query("UPDATE studentcontacts SET contact_value = $1 WHERE contact_type = 1 AND student_id = $2",
-            [phone, student_id])
-
-            await db.query("UPDATE studentcontacts SET contact_value = $1 WHERE contact_type = 2 AND student_id = $2",
-            [email, student_id])
-
-            await db.query("UPDATE studentdocuments SET document_value = $1 WHERE contact_type = 1 AND student_id = $2",
-            [rg, student_id])
-
-            await db.query("UPDATE studentdocuments SET document_value = $1 WHERE contact_type = 2 AND student_id = $2",
-            [cpf, student_id])
-    
+module.exports = async (student) => {
+  if (await !isMinor(student.birthdate)) {
+    delete student.parent
+  }
+  const keys = Object.keys(student).filter(key => {
+    if (typeof (student[key]) !== 'object' && key.indexOf('_id') === -1) {
+      return key
     }
-
+    return false
+  })
+  const queries = []
+  const condition = ` WHERE student_id = ${student.student_id}`
+  const columnStudents = new pgp.helpers.ColumnSet(keys, { table: 'students' })
+  queries.push(pgp.helpers.update(student, columnStudents) + condition)
+  const entities = Object.keys(student).filter(key => {
+    return typeof (student[key]) === 'object' ? key : false
+  })
+  entities.forEach(entity => {
+    const columnEntity = new pgp.helpers.ColumnSet(Object.keys(student[entity]), { table: `student${entity}` })
+    queries.push(pgp.helpers.update(student[entity], columnEntity) + condition)
+  })
+  try {
+    await db.query(queries.join(';'))
+  } catch (error) {
+    return error
+  }
 }
-
-module.exports = update

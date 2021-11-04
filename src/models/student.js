@@ -1,55 +1,46 @@
 const insert = require('../helpers/insertStudent')
-const load = require('../helpers/loadStudent')
+
 const update = require('../helpers/updateStudent')
 const erase = require('../helpers/deleteStudent')
-
 class Student {
+  constructor (student) {
+    this.student_id = student.student_id
+    this.name = student.name
+    this.jedi = student.jedi
+    this.address = student.address
+    this.birthdate = student.birthdate
+    this.income = student.income
+    this.city_of_birth = student.city_of_birth
+    this.schooling = student.schooling
+    this.marital_status = student.marital_status
+    this.family_income = student.family_income
+    this.family_members = student.family_members
+    this.contacts = student.contacts
+    this.documents = student.documents
+    this.parent = student.parent
+    this.government_aid = student.government_aid
+    this.family_members_with_disability = student.family_members_with_disability
+  }
 
-    constructor(name, surname, adress, birthdate, cityOfBirth,
-        educationLevel, maritalStatus, familyIncome, numberOfHousehold, employmentStatus,
-        income, contact, document) {
-        this.name = name
-        this.surname = surname
-        this.birthdate = birthdate
-        this.cityOfBirth = cityOfBirth
-        this.adress = adress
-        this.educationLevel = educationLevel
-        this.maritalStatus = maritalStatus
-        this.employmentStatus = employmentStatus
-        this.income = income
-        this.numberOfHousehold = numberOfHousehold
-        this.familyIncome = familyIncome
-        this.contact = contact
-        this.document = document
+  async create () {
+    try {
+      await insert(this)
+    } catch (error) {
+      return error
     }
+  }
 
-    static async create(name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
-        employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email){
-
-        await insert.insertStudent(name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
-            employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email)
+  async update () {
+    try {
+      await update(this)
+    } catch (error) {
+      return error
     }
+  }
 
-    static async update(student_id, name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
-        employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email){
-
-        await update.updateStudent(student_id, name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
-            employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email)
-    }
-
-    static async deleteStudent(id){
-        await erase.deleteStudent(id)
-    }
-
-    static async allStudents(){
-        return await load.allStudents()
-    }
-
-    static async oneStudent(id){
-        return await load.oneStudent(id)
-        
-    }
-
+  static async deleteStudent (id) {
+    await erase(id)
+  }
 }
 
 module.exports = Student

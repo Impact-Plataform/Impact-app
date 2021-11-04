@@ -1,39 +1,38 @@
 
 const db = require('../config/dbConnection')
+const isMinor = require('../helpers/isMinor')
+const pgp = require('pg-promise')({
+  capSQL: true
+})
 
-class insert{
+module.exports = async (student) => {
+  if (await !isMinor(student.birthdate)) {
+    delete student.parent
+  }
+  const keys = Object.keys(student).filter(key => {
+    if (typeof (student[key]) !== 'object' && student[key] !== undefined) {
+      return key
+    }
+    return false
+  })
+  const aditionalQuery = []
+  const columnStudents = new pgp.helpers.ColumnSet(keys, { table: 'students' })
+  const mainQuery = pgp.helpers.insert(student, columnStudents) + ' RETURNING student_id'
+  const queryRet = await db.query(mainQuery)
+  student.student_id = queryRet.rows[0].student_id
 
-    static async insertStudent(name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, 
-        employmentStatus, income, numberOfHousehold, familyIncome, rg, cpf, phone, email){
-
-        let studentId = await db.query("INSERT INTO students(name, surname, birthdate, city_of_birth, adress, education_level, marital_status, employment_status, income, number_of_household, family_income) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING student_id",
-        [name, surname, birthDate, cityOfBirth, adress, educationLevel, maritalStatus, employmentStatus, income, numberOfHousehold, familyIncome])
-
-        let id = studentId.rows[0].student_id
-
-        if(phone !== ''){
-            await db.query("INSERT INTO studentcontacts(student_id, contact_type, contact_description, contact_value) VALUES($1, $2, $3, $4)", 
-            [id, 1, 'Phone', phone])
-        }
-
-        if(email !== ''){
-            await db.query("INSERT INTO studentcontacts(student_id, contact_type, contact_description, contact_value) VALUES($1, $2, $3, $4)", 
-            [id, 2, 'Email', email])
-        }
-
-        if(rg !== ''){
-            await db.query("INSERT INTO studentdocuments(student_id, document_type, document_description, document_value) VALUES($1, $2, $3, $4)", 
-            [id, 1, 'RG', rg])
-        }
-
-        if(cpf !== ''){
-            await db.query("INSERT INTO studentdocuments(student_id, document_type, document_description, document_value) VALUES($1, $2, $3, $4)", 
-            [id, 2, 'CPF', cpf])
-        }
-
-    }   
-
+  const entities = Object.keys(student).filter(key => {
+    return typeof (student[key]) === 'object' ? key : false
+  })
+  entities.forEach(entity => {
+    student[entity].student_id = student.student_id
+    const columnEntity = new pgp.helpers.ColumnSet(Object.keys(student[entity]), { table: `student${entity}` })
+    const queryEntity = pgp.helpers.insert(student[entity], columnEntity)
+    aditionalQuery.push(queryEntity)
+  })
+  try {
+    await db.query(aditionalQuery.join(';'))
+  } catch (error) {
+    return error
+  }
 }
-
-module.exports = insert
-

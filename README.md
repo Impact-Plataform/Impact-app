@@ -1,5 +1,5 @@
 # Impact-app
 
 
-### ⚙ Work In progress.. 
+### ⚙ Work In progress...
 
