@@ -42,7 +42,6 @@ module.exports = {
       const students = await getAllStudents()
       res.status(200).send(students)
     } catch (error) {
-      console.log(error)
       res.status(400).send({ error: 'Falha ao buscar estudantes' })
     }
   },
