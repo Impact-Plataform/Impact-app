@@ -1,10 +1,11 @@
 const db = require('../config/dbConnection')
+const isMinor = require('../helpers/isMinor')
 const pgp = require('pg-promise')({
   capSQL: true
 })
 
 module.exports = async (student) => {
-  if (await !student.isMinor()) {
+  if (await !isMinor(student.birthdate)) {
     delete student.parent
   }
   const keys = Object.keys(student).filter(key => {
@@ -27,7 +28,6 @@ module.exports = async (student) => {
   try {
     await db.query(queries.join(';'))
   } catch (error) {
-    console.log(error)
     return error
   }
 }

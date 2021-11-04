@@ -1,5 +1,5 @@
 const Student = require('../models/student')
-
+const { getStudent, getAllStudents } = require('../helpers/getStudents')
 module.exports = {
 
   async save (req, res) {
@@ -25,14 +25,27 @@ module.exports = {
 
   async read (req, res) {
     const id = req.params.id
-    const result = await Student.getStudent(id)
-    res.status(200).send(result)
+    try {
+      const student = await getStudent(id)
+      if (student === Error) {
+        return res.status(400).send({ error: 'Estudante não encontrado' })
+      } else {
+        return res.status(200).send({ student })
+      }
+    } catch (error) {
+      return res.status(500).send({ error: 'Falha ao buscar estudante' })
+    }
   },
 
   async readAll (req, res) {
-    // Aqui vem o código para busca geral de estudante
-    const result = await Student.allStudents()
-    res.status(200).send(result)
+    try {
+      const vet = []
+      vet.push(await getAllStudents())
+      // const result = await getAllStudents()
+      res.status(200).send(vet)
+    } catch (error) {
+      res.status(400).send({ error: 'Falha ao buscar estudantes' })
+    }
   },
 
   async delete (req, res) {
