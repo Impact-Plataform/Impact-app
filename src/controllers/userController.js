@@ -33,22 +33,22 @@ module.exports = {
 
   async login (req, res) {
     try {
-      const queryReturn = await db.query('SELECT name, surname, admin FROM users WHERE email = $1', [req.body.email])
+      const queryReturn = await db.query('SELECT name, surname, admin, password_hash FROM users WHERE email = $1', [req.body.email])
+
       if (queryReturn.rows.length < 1) {
         return res.status(401).send({ message: 'Usuário ou senha inválidos' })
       }
       const user = queryReturn.rows[0]
-
       const admin = user.admin === true
-      if (await bcrypt.compareSync(req.body.password, user.password_hash)) {
+      if (bcrypt.compareSync(req.body.password, user.password_hash)) {
         const token = jwt.sign({
-          user: user.name + ' ' + user.surname,
-          exp: Math.floor(Date.now() / 1000) + ((60 * 60) * 3),
+          user: user.name.concat(' ', user.surname),
+          expiresIn: Math.floor(Date.now() / 1000) + ((60 * 60) * 3),
           admin: admin
         },
         process.env.JWT_KEY,
         {
-          expiresIn: '3h'
+          expiresIn: 10800
         })
         return res.status(200).send({
           user: user.name,
