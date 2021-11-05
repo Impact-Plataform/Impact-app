@@ -40,6 +40,7 @@ module.exports = {
   async readAll (req, res) {
     try {
       const students = await getAllStudents()
+      console.log(students)
       res.status(200).send({ data: students })
     } catch (error) {
       res.status(400).send({ error: 'Falha ao buscar estudantes' })

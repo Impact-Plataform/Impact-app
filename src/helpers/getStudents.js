@@ -30,7 +30,7 @@ async function aditionalQueries (student) {
 module.exports = {
   async getAllStudents () {
     const students = (await db.query(studentQuery + 'WHERE is_active = TRUE')).rows
-
+    console.log(students)
     return Promise.all(students.map(async student => {
       const completedStudent = await aditionalQueries(student)
       return completedStudent
