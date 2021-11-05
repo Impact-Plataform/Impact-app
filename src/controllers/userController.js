@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const db = require('../config/dbConnection')
 
 module.exports = {
-  async createUser (req, res, next) {
+  async createUser (req, res) {
     try {
       try {
         await db.query('INSERT INTO users (name, surname, email, password_hash, admin) VALUES ($1,$2,$3,$4,$5)',
@@ -31,9 +31,9 @@ module.exports = {
     }
   },
 
-  async login (req, res, next) {
+  async login (req, res) {
     try {
-      const queryReturn = await db.query('SELECT * FROM users WHERE email = $1', [req.body.email])
+      const queryReturn = await db.query('SELECT name, surname, admin FROM users WHERE email = $1', [req.body.email])
       if (queryReturn.rows.length < 1) {
         return res.status(401).send({ message: 'Usuário ou senha inválidos' })
       }
@@ -42,15 +42,17 @@ module.exports = {
       const admin = user.admin === true
       if (await bcrypt.compareSync(req.body.password, user.password_hash)) {
         const token = jwt.sign({
-          user: user.name,
+          user: user.name + ' ' + user.surname,
+          exp: Math.floor(Date.now() / 1000) + ((60 * 60) * 3),
           admin: admin
         },
         process.env.JWT_KEY,
         {
-          expiresIn: '8h'
+          expiresIn: '3h'
         })
         return res.status(200).send({
           user: user.name,
+          admin: admin,
           token: token
         })
       }
