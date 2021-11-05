@@ -30,7 +30,7 @@ module.exports = {
       if (student === Error) {
         return res.status(400).send({ error: 'Estudante não encontrado' })
       } else {
-        return res.status(200).send({ student })
+        return res.status(200).send({ data: student })
       }
     } catch (error) {
       return res.status(500).send({ error: 'Falha ao buscar estudante' })
@@ -40,7 +40,7 @@ module.exports = {
   async readAll (req, res) {
     try {
       const students = await getAllStudents()
-      res.status(200).send({ students })
+      res.status(200).send({ data: students })
     } catch (error) {
       res.status(400).send({ error: 'Falha ao buscar estudantes' })
     }
