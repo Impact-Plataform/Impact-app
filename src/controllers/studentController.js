@@ -30,7 +30,7 @@ module.exports = {
       if (student === Error) {
         return res.status(400).send({ error: 'Estudante não encontrado' })
       } else {
-        return res.status(200).send({ data: student })
+        return res.status(200).send({ student })
       }
     } catch (error) {
       return res.status(500).send({ error: 'Falha ao buscar estudante' })
@@ -41,7 +41,7 @@ module.exports = {
     try {
       const students = await getAllStudents()
       console.log(students)
-      res.status(200).send({ data: students })
+      res.status(200).send({ students })
     } catch (error) {
       res.status(400).send({ error: 'Falha ao buscar estudantes' })
     }
