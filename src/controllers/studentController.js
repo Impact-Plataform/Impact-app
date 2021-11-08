@@ -17,9 +17,9 @@ module.exports = {
     student.student_id = req.params.id
     try {
       await student.update()
-      return res.status(200).send({ message: 'Estudante atualizado com sucesso!' })
+      return res.status(200).send({ message: 'Cadastro atualizado com sucesso!' })
     } catch (error) {
-      return res.status(400).send({ error: 'Falha ao atualizar estudante' })
+      return res.status(400).send({ error: 'Falha ao atualizar cadastro' })
     }
   },
 
