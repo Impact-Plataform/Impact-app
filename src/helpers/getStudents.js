@@ -28,7 +28,7 @@ async function aditionalQueries (student) {
 }
 
 module.exports = {
-  async getAllStudents (param) {
+  async getAllStudents (param = '') {
     const params = param.indexOf('&') > -1 ? param.replace('&', ' AND ') : param
     const condition = params ? `WHERE is_active = TRUE AND ${params}` : 'WHERE is_active = TRUE'
     console.log(condition)
