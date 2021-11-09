@@ -1,5 +1,6 @@
 const Student = require('../models/student')
 const { getStudent, getAllStudents } = require('../helpers/getStudents')
+
 module.exports = {
 
   async save (req, res) {
@@ -39,20 +40,26 @@ module.exports = {
 
   async readAll (req, res) {
     try {
+      if (Object.keys(req.query).length > 0) {
+        const params = req.url.split('?')[1]
+        // params = params.split('&')
+        // const jedi = params.find(el => el.indexOf('jedi') > -1)
+        const students = await getAllStudents(params)
+        return res.status(200).send({ students })
+      }
       const students = await getAllStudents()
-      console.log(students)
-      res.status(200).send({ students })
+      return res.status(200).send({ students })
     } catch (error) {
-      res.status(400).send({ error: 'Falha ao buscar estudantes' })
+      return res.status(400).send({ error: 'Falha ao buscar estudantes' })
     }
   },
 
   async delete (req, res) {
     try {
       await Student.deleteStudent(req.params.id)
-      res.status(200).send({ message: 'Cadastro deletado com sucesso!' })
+      return res.status(200).send({ message: 'Cadastro deletado com sucesso!' })
     } catch (error) {
-      res.status(400).send({ error: 'Falha ao deletar cadastro' })
+      return res.status(400).send({ error: 'Falha ao deletar cadastro' })
     }
   }
 
