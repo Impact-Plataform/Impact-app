@@ -5,8 +5,8 @@
 
 | Recurso | URL                                 | Método | Código Esperado | Retorno Esperado                         |
 | ------- | ----------------------------------- | ------ | --------------- | ---------------------------------------- |
-| /signup | https://impact-app.herokuapp.com/user/register | post   | 200             | Usuario criado com sucesso {nome, email} |
-| /signin | https://impact-app.herokuapp.com/user/login    | post   | 200             | Autenticado com sucesso {user,token}     |
+| /register | https://impact-app.herokuapp.com/user/register | post   | 200             | Usuario criado com sucesso {nome, email} |
+| /login | https://impact-app.herokuapp.com/user/login    | post   | 200             | Autenticado com sucesso {user,token}     |
 
 
 | Recurso             | URL                                              | Método | Código Esperado | Retorno Esperado                  |
