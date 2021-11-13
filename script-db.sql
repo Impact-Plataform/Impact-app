@@ -9,6 +9,8 @@ CREATE TABLE users(
   update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+
+
 CREATE TABLE Students(  
     student_id SERIAL PRIMARY KEY,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
@@ -16,7 +18,7 @@ CREATE TABLE Students(
     birthdate VARCHAR(10) NOT NULL,
     city_of_birth VARCHAR(100) NOT NULL,
     schooling VARCHAR(30) NOT NULL,
-    marital_status VARCHAR(10) NOT NULL,
+    marital_status VARCHAR(15) NOT NULL,
     income VARCHAR(30) NOT NULL,
     family_members VARCHAR(3) NOT NULL,
     family_income VARCHAR(30) NOT NULL,
@@ -67,8 +69,9 @@ CREATE TABLE StudentAddress (
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     street VARCHAR(100) NOT NULL,
     number VARCHAR(10) NOT NULL,
-    cep VARCHAR(10) NOT NULL,
-    complement VARCHAR(100) NOT NULL,
+    cep VARCHAR(10),
+    complement VARCHAR(100),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     update_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+

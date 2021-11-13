@@ -5,6 +5,12 @@ const db = require('../config/dbConnection')
 module.exports = {
   async createUser (req, res) {
     try {
+      const emails = await db.query('SELECT email FROM users')
+      if (emails.rows.find(email => email.email === req.body.email)) {
+        return res.status(400).json({
+          message: 'Email ja existe'
+        })
+      }
       try {
         await db.query('INSERT INTO users (name, surname, email, password_hash, admin) VALUES ($1,$2,$3,$4,$5)',
           [req.body.name,
@@ -14,7 +20,7 @@ module.exports = {
             req.body.admin])
       } catch (error) {
         return res.status(406).send({
-          error: 'Email ja existe'
+          error: 'Falha ao cadastrar usuário'
         })
       }
 

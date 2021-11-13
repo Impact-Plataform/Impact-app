@@ -4,7 +4,7 @@ const update = require('../helpers/updateStudent')
 const erase = require('../helpers/deleteStudent')
 class Student {
   constructor (student) {
-    this.student_id = student.student_id
+    this.student_id = student.student_id || undefined
     this.name = student.name
     this.jedi = student.jedi
     this.address = student.address
