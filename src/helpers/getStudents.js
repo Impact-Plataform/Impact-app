@@ -31,7 +31,6 @@ module.exports = {
   async getAllStudents (param = '') {
     const params = param.indexOf('&') > -1 ? param.replace('&', ' AND ') : param
     const condition = params ? `WHERE is_active = TRUE AND ${params}` : 'WHERE is_active = TRUE'
-    console.log(condition)
     const students = (await db.query(studentQuery + condition)).rows
     return Promise.all(students.map(async student => {
       const completedStudent = await aditionalQueries(student)

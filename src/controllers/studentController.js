@@ -4,7 +4,7 @@ const { getStudent, getAllStudents } = require('../helpers/getStudents')
 module.exports = {
 
   async save (req, res) {
-    const student = new Student(req.body.student)
+    const student = new Student(req.body)
     try {
       await student.create()
       return res.status(201).send({ message: 'Estudante cadastrado com sucesso!' })
@@ -40,20 +40,16 @@ module.exports = {
 
   async readAll (req, res) {
     try {
-      console.log('ta ok')
       // if (Object.keys(req.query).length > 0) {
-      //   console.log('ta ok dentro do if')
       //   const params = req.url.split('?')[1]
       //   // params = params.split('&')
       //   // const jedi = params.find(el => el.indexOf('jedi') > -1)
       //   const students = await getAllStudents(params)
       //   return res.status(200).send({ students })
       // }
-      console.log('ta ok fora do if')
       const students = await getAllStudents()
       return res.status(200).send({ students })
     } catch (error) {
-      console.log(error)
       return res.status(400).send({ error: 'Falha ao buscar estudantes' })
     }
   },
