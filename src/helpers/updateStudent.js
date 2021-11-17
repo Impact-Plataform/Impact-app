@@ -6,6 +6,7 @@ const pgp = require('pg-promise')({
 
 module.exports = async (student) => {
   if (!isMinor(student.birthdate)) {
+    console.log('Student is not minor')
     delete student.parent
   }
   console.log(`EStudante : \n${student}`)
