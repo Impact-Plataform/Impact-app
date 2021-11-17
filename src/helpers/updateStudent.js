@@ -14,6 +14,7 @@ module.exports = async (student) => {
     }
     return false
   })
+  console.log(keys)
   const queries = []
   const condition = ` WHERE student_id = ${student.student_id}`
   const columnStudents = new pgp.helpers.ColumnSet(keys, { table: 'students' })
