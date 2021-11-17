@@ -8,13 +8,14 @@ module.exports = async (student) => {
   if (!isMinor(student.birthdate)) {
     delete student.parent
   }
+  console.log(`EStudante : \n${student}`)
+  console.log(`Parent: \n${student.parent}`)
   const keys = Object.keys(student).filter(key => {
     if (typeof (student[key]) !== 'object' && key.indexOf('_id') === -1) {
       return key
     }
     return false
   })
-  console.log(keys)
   const queries = []
   const condition = ` WHERE student_id = ${student.student_id}`
   const columnStudents = new pgp.helpers.ColumnSet(keys, { table: 'students' })
@@ -30,7 +31,6 @@ module.exports = async (student) => {
   try {
     await db.query(queries.join(';'))
   } catch (error) {
-    console.log(error)
     return error
   }
 }
