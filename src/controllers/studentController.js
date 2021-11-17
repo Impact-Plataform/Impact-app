@@ -14,7 +14,7 @@ module.exports = {
   },
 
   async update (req, res) {
-    const student = new Student(req.body.student)
+    const student = new Student(req.body)
     student.student_id = req.params.id
     try {
       await student.update()
