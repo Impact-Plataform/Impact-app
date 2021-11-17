@@ -25,6 +25,7 @@ module.exports = async (student) => {
     const columnEntity = new pgp.helpers.ColumnSet(Object.keys(student[entity]), { table: `student${entity}` })
     queries.push(pgp.helpers.update(student[entity], columnEntity) + condition)
   })
+  console.log(queries)
   try {
     await db.query(queries.join(';'))
   } catch (error) {
