@@ -28,6 +28,7 @@ module.exports = async (student) => {
   try {
     await db.query(queries.join(';'))
   } catch (error) {
+    console.log(error)
     return error
   }
 }
