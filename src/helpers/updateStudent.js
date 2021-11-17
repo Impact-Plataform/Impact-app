@@ -6,11 +6,8 @@ const pgp = require('pg-promise')({
 
 module.exports = async (student) => {
   if (!isMinor(student.birthdate)) {
-    console.log('Student is not minor')
     delete student.parent
   }
-  console.log(`EStudante : \n${student}`)
-  console.log(`Parent: \n${student.parent}`)
   const keys = Object.keys(student).filter(key => {
     if (typeof (student[key]) !== 'object' && key.indexOf('_id') === -1) {
       return key
@@ -28,7 +25,6 @@ module.exports = async (student) => {
     const columnEntity = new pgp.helpers.ColumnSet(Object.keys(student[entity]), { table: `student${entity}` })
     queries.push(pgp.helpers.update(student[entity], columnEntity) + condition)
   })
-  console.log(queries)
   try {
     await db.query(queries.join(';'))
   } catch (error) {
